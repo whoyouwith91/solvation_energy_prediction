@@ -43,7 +43,7 @@ def getMol(file, id_, config):
         data = 'Frag20_QM'
         format_ = '.opt.sdf' # optimized by DFT
     else:
-        pass 
+        pass  
 
     if file in ['pubchem', 'zinc']:
         path_to_sdf = '/ext3/{}/lessthan10/sdf/'.format(data) + file # path to the singularity file overlay-50G-10M.ext3
