@@ -4,3 +4,9 @@
 ![model architecture](model.jpg)
 
 The repository contains all of the code and instructions needed to reproduce the experiments and results of **[Accurate prediction of aqueous free solvation energies using 3D atomic feature-based graph neural network with transfer learning]**. 
+
+## 1. Datasets downloading
+
+## 2. Data preprocessing
+
+## 3. Training
