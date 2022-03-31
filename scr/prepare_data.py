@@ -96,10 +96,10 @@ def main():
                     path_to_xyz = '/ext3/{}/lessthan10/xyz'.format(folder) # path to the singularity file overlay-50G-10M.ext3
                 else:
                     path_to_xyz = '/ext3/{}/{}/xyz'.format(folder, file)
-                    file_id = str(file) +'_' + str(int(id_)) # such as 'pubchem_100001'
-                    atoms = ase_read(os.path.join(path_to_xyz, '{}.xyz'.format(file_id))) # path to the singularity file overlay-50G-10M.ext3
-                    molgraphs['x'] = torch.FloatTensor(acsf.create(atoms, positions=range(mol.GetNumAtoms())))
-                    assert mol.GetNumAtoms() == molgraphs['x'].shape[0]
+                file_id = str(file) +'_' + str(int(id_)) # such as 'pubchem_100001'
+                atoms = ase_read(os.path.join(path_to_xyz, '{}.xyz'.format(file_id))) # path to the singularity file overlay-50G-10M.ext3
+                molgraphs['x'] = torch.FloatTensor(acsf.create(atoms, positions=range(mol.GetNumAtoms())))
+                assert mol.GetNumAtoms() == molgraphs['x'].shape[0]
                 
             if args.dmpnn: # saving features of molecular graphs for D-MPNN
                 mol_graph = MolGraph_dmpnn(mol, args.ACSF, molgraphs['x'].tolist())
