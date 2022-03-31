@@ -22,7 +22,8 @@ import mdtraj as md
 import itertools, operator
 
 def parse_input_arguments():
-    parser = argparse.ArgumentParser(description='Physicochemical prediction')
+    parser = argparse.ArgumentParser(description='Solvation energy dataset preparation')
+    parser.add_argument('--data_path', type=str)
     parser.add_argument('--dataset', type=str)
     parser.add_argument('--file', type=str, default=None) # for file name such as pubchem, zinc, etc in Frag20
     parser.add_argument('--removeHs', action='store_true') # whether remove Hs
@@ -65,11 +66,10 @@ def getMol(file, id_, config):
 def main():
     args = parse_input_arguments()
     this_dic = vars(args)
-    alldatapath = '/scratch/dz1061/gcn/chemGraph/data/' # TODO
 
-    train_raw = pd.read_csv(os.path.join(alldatapath, args.dataset, 'split', 'train.csv'))
-    valid_raw = pd.read_csv(os.path.join(alldatapath, args.dataset, 'split', 'valid.csv'))
-    test_raw = pd.read_csv(os.path.join(alldatapath, args.dataset, 'split', 'test.csv'))
+    train_raw = pd.read_csv(os.path.join(args.data_path, args.dataset, 'split', 'train.csv'))
+    valid_raw = pd.read_csv(os.path.join(args.data_path, args.dataset, 'split', 'valid.csv'))
+    test_raw = pd.read_csv(os.path.join(args.data_path, args.dataset, 'split', 'test.csv'))
     
     examples = []
     all_data = pd.concat([train_raw, valid_raw, test_raw]).reset_index(drop=True)
