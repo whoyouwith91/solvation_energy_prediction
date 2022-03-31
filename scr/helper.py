@@ -8,9 +8,6 @@ from torch.optim.lr_scheduler import _LRScheduler
 #from torchcontrib.optim import SWA
 import sklearn.metrics as metrics
 
-from typing import List, Union
-from kwargs import physnet_kwargs
-
 ################### Configuration setting names ############################
 data_config = ['dataset', 'model', 'style', 'data_path']
 model_config = ['dataset', 'model', 'gnn_type',  'bn', 'batch_size', 'emb_dim', 'act_fn' , 'weights', 'num_atom_features', 'num_tasks', 'propertyLevel', \

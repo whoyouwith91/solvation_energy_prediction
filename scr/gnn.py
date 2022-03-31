@@ -246,3 +246,4 @@ class DMPNN(nn.Module):
         atom_hiddens = F.dropout(atom_hiddens, self.drop_ratio, training = self.training)  # num_atoms x hidden
 
         return atom_hiddens
+

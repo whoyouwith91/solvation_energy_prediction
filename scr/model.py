@@ -1,8 +1,6 @@
 import torch
 from torch import nn
 from torch_geometric.nn.glob.glob import global_add_pool
-from torch_scatter import scatter_mean
-from torch_geometric.utils import add_self_loops, degree, softmax
 import torch.nn.functional as F
 from helper import *
 from layers import *

@@ -2,7 +2,6 @@ import sys
 from helper import *
 from data import *
 from models import *
-from utils_functions import floating_type
 
 def train(model, optimizer, dataloader, config, scheduler=None):
     '''
