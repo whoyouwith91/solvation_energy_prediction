@@ -4,14 +4,9 @@ from torch_geometric.nn.glob.glob import global_add_pool
 from torch_scatter import scatter_mean
 from torch_geometric.utils import add_self_loops, degree, softmax
 import torch.nn.functional as F
-from torch_scatter import scatter_add
-from torch_geometric.nn.inits import glorot, zeros
 from helper import *
 from layers import *
 from gnns import *
-from PhysDimeNet import PhysDimeNet
-from torch_geometric.nn.norm import PairNorm
-import time, sys
 
 def get_model(config):
     name = config['model']
@@ -19,8 +14,6 @@ def get_model(config):
         raise ValueError('Please specify one model you want to work on!')
     if name == '1-GNN':
         return GNN_1(config)
-    if name == 'physnet':
-        return PhysDimeNet(**config)
 
 class GNN(torch.nn.Module):
     """

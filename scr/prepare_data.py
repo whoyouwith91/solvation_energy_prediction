@@ -1,37 +1,22 @@
-import os, sys, math, json, argparse, logging, time, random, pickle
-from datetime import datetime
+import os, sys
 import torch
 import numpy as np
 import pandas as pd
 from featurization import *
-from sklearn.model_selection import train_test_split
-from mordred import Calculator, descriptors
-from rdkit import Chem
-from rdkit.Chem import Descriptors
-from rdkit.Chem import rdMolDescriptors
-from rdkit.Chem.rdmolfiles import SDMolSupplier, MolFromPDBFile
-from rdkit.ML.Descriptors import MoleculeDescriptors
-#from three_level_frag import cleavage, AtomListToSubMol, standize, mol2frag, WordNotFoundError, counter
-from deepchem.feat import BPSymmetryFunctionInput, CoulombMatrix, CoulombMatrixEig
+from rdkit.Chem.rdmolfiles import SDMolSupplier
 from dscribe.descriptors import ACSF
-from rdkit.Chem.rdmolfiles import MolToXYZFile
 from ase.io import read as ase_read
 from rdkit import Chem
-from prody import *
-import mdtraj as md
-import itertools, operator
 
 def parse_input_arguments():
     parser = argparse.ArgumentParser(description='Solvation energy dataset preparation')
-    parser.add_argument('--data_path', type=str)
-    parser.add_argument('--dataset', type=str)
-    parser.add_argument('--file', type=str, default=None) # for file name such as pubchem, zinc, etc in Frag20
-    parser.add_argument('--ACSF', action='store_true')
-    parser.add_argument('--cutoff', type=float)
-    parser.add_argument('--dmpnn', action='store_true')
-    parser.add_argument('--xyz', type=str)
-    parser.add_argument('--save_path', type=str, default='/scratch/dz1061/gcn/chemGraph/data/')
-    parser.add_argument('--train_type', type=str)
+    parser.add_argument('--data_path', type=str) # where csv files are saved.
+    parser.add_argument('--dataset', type=str) # Frag20-Aqsol-100K or FreeSolv
+    parser.add_argument('--ACSF', action='store_true') # using 3D features or not 
+    parser.add_argument('--cutoff', type=float) # cutoff values in ACSF
+    parser.add_argument('--dmpnn', action='store_true') # using D-MPNN-way to do featurization
+    parser.add_argument('--xyz', type=str) # using MMFF or QM optimized geometries
+    parser.add_argument('--train_type', type=str) # training from scratch (TS) or finetuning (TS)
 
     return parser.parse_args()
 
@@ -125,7 +110,7 @@ def main():
 
     if this_dic['dataset'] == 'freesolv': # For FreeSolv
             if this_dic['ACSF']:
-                inchi_idx = pickle.load(open(os.path.join(alldatapath, '{}/split/inchi_index.pt'.format(args.dataset)), 'rb')) # InChI mapped to index pointing to the SDF and XYZ files. 
+                inchi_idx = pickle.load(open(os.path.join(args.data_path, 'FreeSolv/split/inchi_index.pt'), 'rb')) # InChI mapped to index pointing to the SDF and XYZ files. 
                 species = ['Br', 'C', 'Cl', 'F', 'H', 'I', 'N', 'O', 'P', 'S'] 
                 if args.train_type in ['FT']:
                     species = ['B', 'Br', 'C', 'Cl', 'F', 'H', 'N', 'O', 'P', 'S'] 
@@ -141,7 +126,7 @@ def main():
                 molgraphs = {}
                         
                 idx = inchi_idx[inchi]
-                mol = SDMolSupplier(os.path.join(args.data_path, args.dataset, 'sdf', '{}.sdf'.format(idx)), removeHs=False)[0]
+                mol = SDMolSupplier(os.path.join(args.data_path, 'FreeSolv/sdf/{}.sdf'.format(idx)), removeHs=False)[0]
                 if args.train_type in ['FT', 'TL'] and not \
                         set([atom.GetSymbol() for atom in mol.GetAtoms()]) < set(['B', 'Br', 'C', 'Cl', 'F', 'H', 'N', 'O', 'P', 'S']):
                             continue
@@ -150,9 +135,9 @@ def main():
                 if not this_dic['ACSF']:
                     molgraphs['x'] = torch.FloatTensor(mol_graph.f_atoms)
                 else:      
-                    if not os.path.exists(os.path.join(args.data_path, args.dataset, this_dic['xyz'], '{}.xyz'.format(idx))):
+                    if not os.path.exists(os.path.join(args.data_path, 'FreeSolv/xyz', this_dic['xyz'], '{}.xyz'.format(idx))):
                         continue
-                    atoms = ase_read(os.path.join(args.data_path, args.dataset, this_dic['xyz'], '{}.xyz'.format(idx)))
+                    atoms = ase_read(os.path.join(args.data_path, 'FreeSolv/xyz', this_dic['xyz'], '{}.xyz'.format(idx)))
                     molgraphs['x'] = torch.FloatTensor(acsf.create(atoms, positions=range(mol.GetNumAtoms()))) # replace the 2D feature vector for atoms
 
                 if args.dmpnn:

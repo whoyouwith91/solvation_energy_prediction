@@ -1,24 +1,9 @@
-from typing import Union, Tuple, Callable
-from torch_geometric.typing import OptTensor, OptPairTensor, Adj, Size
-from torch.nn import Parameter
-
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.nn import GRU, LSTM
 import torch.nn.functional as F
-from torch.nn import ModuleList, Sequential, Linear, ReLU, LeakyReLU, ELU, Tanh
-from torch_scatter import scatter_mean
-from torch_scatter import scatter
-from typing import Optional, List, Dict
-from torch_geometric.typing import Adj, OptTensor
-
-from torch_geometric.nn import MessagePassing
-from torch_geometric.nn import EdgePooling, global_add_pool, global_mean_pool, global_max_pool, GlobalAttention, Set2Set, TopKPooling, SAGPooling
+from torch_geometric.nn import EdgePooling, global_add_pool, global_mean_pool, global_max_pool, GlobalAttention, Set2Set
 import torch.nn.functional as F
-from torch_scatter import scatter_add
-from torch_geometric.nn.inits import glorot, zeros
-from k_gnn import avg_pool, add_pool, max_pool
 from helper import *
 
 def dmpnn_pool(atom_hiddens, a_scope):
@@ -58,23 +43,6 @@ def PoolingFN(config):
             pool = Set2Set((config['num_layer'] + 1) * config['emb_dim'], set2set_iter)
         else:
             pool = Set2Set(config['emb_dim'], set2set_iter)
-    elif config['pooling'] == 'conv':
-        poolList = []
-        poolList.append(global_add_pool)
-        poolList.append(global_mean_pool)
-        poolList.append(global_max_pool)
-        poolList.append(GlobalAttention(gate_nn = torch.nn.Linear(self.emb_dim, 1)))
-        poolList.append(Set2Set(config['emb_dim'], 2))
-        pool = nn.Conv1d(len(poolList), 1, 2, stride=2)
-    elif config['pooling'] == 'edge':
-        pool = []
-        pool.extend([EdgePooling(config['emb_dim']).cuda() for _ in range(config['num_layer'])])
-    elif config['pooling'] == 'topk':
-        pool = []
-        pool.extend([TopKPooling(config['dimension']).cuda() for _ in range(config['num_layer'])])
-    elif config['pooling'] == 'sag':
-        pool = []
-        pool.extend([SAGPooling(config['dimension']).cuda() for _ in range(config['num_layer'])])
     elif config['pooling'] == 'atomic':
         pool = global_add_pool
     else:
@@ -82,6 +50,11 @@ def PoolingFN(config):
 
     return pool
 
+def semi_orthogonal_glorot_weights(n_in, n_out, scale=2.0, seed=None):
+    W = semi_orthogonal_matrix(n_in, n_out, seed=seed)
+    W *= np.sqrt(scale / ((n_in + n_out) * W.var()))
+    return torch.Tensor(W).type(floating_type).t()
+    
 class ResidualLayer(nn.Module):
     """
     The residual layer defined in PhysNet

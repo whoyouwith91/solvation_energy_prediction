@@ -1,4 +1,3 @@
-from typing import List, Tuple, Union
 from rdkit import Chem
 import collections
 #from descriptastorus.descriptors import rdDescriptors, rdNormalizedDescriptors
