@@ -22,7 +22,7 @@ Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K,
 
 After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a list of folders as shown below, for example, in the directory `./data/Frag20-Aqsol-100K/sdf/MMFF/`: 
 ![folders](unziped_folders.jpg)
-Check the total number files: `find .-type f | wc -l`, which should return 100000.
+Check the total number files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).
 
 ## 2. Data preprocessing
 

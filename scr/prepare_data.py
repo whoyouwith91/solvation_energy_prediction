@@ -26,7 +26,6 @@ def parse_input_arguments():
     parser.add_argument('--data_path', type=str)
     parser.add_argument('--dataset', type=str)
     parser.add_argument('--file', type=str, default=None) # for file name such as pubchem, zinc, etc in Frag20
-    parser.add_argument('--removeHs', action='store_true') # whether remove Hs
     parser.add_argument('--ACSF', action='store_true')
     parser.add_argument('--cutoff', type=float)
     parser.add_argument('--dmpnn', action='store_true')
@@ -36,30 +35,28 @@ def parse_input_arguments():
 
     return parser.parse_args()
 
-def getMol(file, id_, config):
-    if config['xyz'] == 'MMFFXYZ':
-        data = 'Frag20'
+def getMol(file_, id_, config):
+    if config['xyz'] == 'MMFF':
         format_ = '.sdf' 
-    elif config['xyz'] == 'QMXYZ':
-        data = 'Frag20_QM'
+    elif config['xyz'] == 'QM':
         format_ = '.opt.sdf' # optimized by DFT
     else:
         pass  
 
-    if file in ['pubchem', 'zinc']:
-        path_to_sdf = '/ext3/{}/lessthan10/sdf/'.format(data) + file # path to the singularity file overlay-50G-10M.ext3
+    if file_ in ['pubchem', 'zinc']:
+        path_to_sdf = './data/Frag20-Aqsol-100K/sdf/{}/lessthan10/{}'.format(config['xyz'], file_) # path to the singularity file overlay-50G-10M.ext3
         sdf_file = os.path.join(path_to_sdf, str(id_)+format_)
-    elif file in ['CCDC']:
-        path_to_sdf = '/ext3/{}/{}/sdf'.format(data, file) # path to the singularity file overlay-50G-10M.ext3
-        if config['xyz'] == 'MMFFXYZ':
+    elif file_ in ['CCDC']:
+        path_to_sdf = './data/Frag20-Aqsol-100K/sdf/{}/{}'.format(config['xyz'], file_) # path to the singularity file overlay-50G-10M.ext3
+        if config['xyz'] == 'MMFF':
             sdf_file = os.path.join(path_to_sdf, str(id_)+'_min.sdf')
         else:
             sdf_file = os.path.join(path_to_sdf, str(id_)+'.opt.sdf')
     else:
-        path_to_sdf = '/ext3/{}/{}/sdf'.format(data, file)
+        path_to_sdf = './data/Frag20-Aqsol-100K/sdf/{}/{}/'.format(config['xyz'], file_)
         sdf_file = os.path.join(path_to_sdf, str(id_)+format_)
     #print(sdf_file)
-    suppl = SDMolSupplier(sdf_file, removeHs=config['removeHs'])
+    suppl = SDMolSupplier(sdf_file, removeHs=False)
     return suppl[0]
 
 
