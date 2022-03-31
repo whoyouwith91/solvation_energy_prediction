@@ -7,7 +7,7 @@ import collections
 
 ######################## Define atom features and bond features ##############
 ATOM_FEATURES = {
-    'atom_symbol': ['H', 'C', 'N', 'O', 'S', 'F', 'I', 'P', 'Cl', 'Br', 'B'], #['B', 'Br', 'C', 'Cl', 'F', 'H', 'N', 'O', 'P', 'S'],
+    'atom_symbol': ['H', 'C', 'N', 'O', 'S', 'F', 'I', 'P', 'Cl', 'Br'], 
     'atom_degree': [0, 1, 2, 3, 4, 5],
     'atom_explicitValence': [0, 1, 2, 3, 4, 5, 6],
     'atom_implicitValence': [0, 1, 2, 3, 4, 5],
