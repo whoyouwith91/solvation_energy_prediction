@@ -125,7 +125,7 @@ def main():
 
     if this_dic['dataset'] == 'freesolv': # For FreeSolv
             if this_dic['ACSF']:
-                inchi_idx = pickle.load(open(os.path.join(alldatapath, '{}/split/inchi_index.pt'.format(args.dataset)), 'rb'))
+                inchi_idx = pickle.load(open(os.path.join(alldatapath, '{}/split/inchi_index.pt'.format(args.dataset)), 'rb')) # InChI mapped to index pointing to the SDF and XYZ files. 
                 species = ['Br', 'C', 'Cl', 'F', 'H', 'I', 'N', 'O', 'P', 'S'] 
                 if args.train_type in ['FT']:
                     species = ['B', 'Br', 'C', 'Cl', 'F', 'H', 'N', 'O', 'P', 'S'] 
