@@ -19,6 +19,7 @@ Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K,
 - To download XYZ files for QM-optimized geometries:  
 > `cd ./data/Frag20-Aqsol-100K/xyz/QM/`  (navigate to the corresponding directory)  
 > `wget link` (link can be copied from IMA)  
+
 After download the tar.bz2 file, unzip it using `tar -xf`  
 
 ## 2. Data preprocessing
