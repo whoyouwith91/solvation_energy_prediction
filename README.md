@@ -67,7 +67,7 @@ To generate molecule graph datasets for Torch geometric reading, the `preprae_da
 
 where `<path>` is the path to the place where folders sdf, xyz and split are all saved, `<save_path>` is the same path as `data_path` for default where a new directory `graphs` will be created. `--ACSF` means the 3D features are used here. `--cutoff` is the parameter for ACSF functions. `--xyz` means if the MMFF-optimized or QM-optimized geometries are used. `--train_type` means if we save the graph datasets to train the model from scratch (TS) or not. 
 
-After running the above script, there will be a directory generated in the `<save_path>` in the format of `graphs/3D_MMFF_TS/raw` where 3D means `ACSF` is called here, MMFF means `xyz` is using MMFF geometries, TS means the `train_type` is training from scratch (TS), and raw is the required folder by torch geometric. 
+After running the above script, there will be a directory generated in the `<save_path>` in the format of `graphs/3D_MMFF_TS/raw` where 3D means `ACSF` is called here, MMFF means `xyz` is using MMFF geometries, TS means the `train_type` is training from scratch (TS), and `raw` is the required folder by torch geometric. 
 
 ## 4. Training
 To train different tasks, the `train.py` contains the codes. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.  
