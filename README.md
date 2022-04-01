@@ -15,7 +15,7 @@ The repository contains all of the code and instructions needed to reproduce the
 ---
 
 ## 1. Project organization
-
+```
 |- README.md                                <- this file
 |- scr                                      <- Main code of this work
     |- train.py
@@ -44,7 +44,7 @@ The repository contains all of the code and instructions needed to reproduce the
             |- 3D_MMFF
             |- 3D_QM
             |- 2D
-
+```
 
 ## 2. Conda environment setup: 
 Python 3.8 is recommended here with the **[miniconda3](https://docs.conda.io/en/latest/miniconda.html)**. 
