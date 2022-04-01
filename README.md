@@ -6,6 +6,7 @@
 The repository contains all of the code and instructions needed to reproduce the experiments and results of **[Accurate prediction of aqueous free solvation energies using 3D atomic feature-based graph neural network with transfer learning]**. We show the whole process from datasets to model training step-by-step.
 
 ## Table of Contents
+- Project organization
 - Conda environment setup  
 - Datasets downloading   
 - Data preprocessing  
@@ -13,7 +14,39 @@ The repository contains all of the code and instructions needed to reproduce the
 - References
 ---
 
-## 1. Conda environment setup: 
+## 1. Project organization
+
+|- README.md                                <- this file
+|- scr                                      <- Main code of this work
+    |- train.py
+    |- trainer.py
+    |- model.py
+    |- gnns.py
+    |- k_gnn.py
+    |- supergat_conv.py
+    |- layers.py
+    |- prepare_data.py
+    |- featurization.py
+    |- helper.py
+    |- args.py              
+|- data                                     <- where data are saved       
+    |- Frag20-Aqsol-100K
+        |- split                            <- train/validation/test csv files    
+        |- sdf                              <- SDF files for all molecules   
+        |- xyz                              <- XYZ files for all molecules   
+    |- FreeSolv
+        |- split                            <- train/validation/test csv files    
+        |- sdf                              <- SDF files for all molecules   
+        |- xyz                              <- XYZ files for all molecules   
+|- models                                   <- where pretrained models are saved for use
+    |- Frag20-Aqsol-100K
+        |- pretrained
+            |- 3D_MMFF
+            |- 3D_QM
+            |- 2D
+
+
+## 2. Conda environment setup: 
 Python 3.8 is recommended here with the **[miniconda3](https://docs.conda.io/en/latest/miniconda.html)**. 
 The package installation order is recommended as below: 
 - PyTorch. 
@@ -35,7 +68,7 @@ To be noted, in order to be compatible with the installation of Torch-geometric,
 
 `conda install -c conda-forge prettytable`
 
-## 2. Datasets downloading
+## 3. Datasets downloading
 Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our IMA website or using the following command line. 
 - To download and save SDF files for MMFF-optimized geometries: 
 
@@ -60,7 +93,7 @@ Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K,
 After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a list of folders. Then check the total number of files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).  
 
 
-## 3. Data preprocessing
+## 4. Data preprocessing
 To generate molecule graph datasets for Torch geometric reading, the `preprae_data.py` contains the codes for Frag20-Aqsol-100K and FreeSolv. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.   
 
 `python prepare_data.py  --data_path <path> --save_path <save_path> --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type TS`  
@@ -70,7 +103,7 @@ where `<path>` is the path to the place where folders sdf, xyz and split are all
 
 After running the above script, there will be a directory generated in the `<save_path>` in the format of `graphs/3D_TS_MMFF/raw` where 3D means `ACSF` is called here, MMFF means `xyz` is using MMFF geometries, TS means the `train_type` is training from scratch (TS), and `raw` is the required folder by torch geometric. 
 
-## 4. Training
+## 5. Training
 To train different tasks, the `train.py` contains the codes. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.  
 
 `python train.py --data_path <path> --running_path <restuls_path> --dataset Frag20-Aqsol-100K --gnn_type <GNN> --seed <seed> --train_type TS --style <STYLE> --experiment <EXP> --fully_connected_layer_sizes [120, 60] --bn --residual_connect --data_seed <dataRandomSeed> --train_size <tr_size> --val_size <val_size> --test_size <tst_size>`
@@ -81,5 +114,7 @@ After running the script, there will be a new directory generated in the format 
 
 If finetuning the FreeSolv task, argment `--preTrainedPath` should be explicitly called. It should point to the direcotry where `model_best.pt` is saved. Here in this repo, we saved our previously trained models on Frag20-Aqsol-100K using MMFF-optimized geometries, QM-optimized geometris and 2D for use, which are saved in `models/Frag20-Aqsol-100K/pretrained/`. 
 
-## 5. References
+## 6. References
 ChemProp: https://github.com/chemprop/chemprop
+k-gnn: https://github.com/chrsmrrs/k-gnn
+SuperGAT: https://github.com/dongkwan-kim/SuperGAT
