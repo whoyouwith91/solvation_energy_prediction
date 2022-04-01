@@ -102,10 +102,11 @@ def main():
             molgraphs['mol_y'] = torch.FloatTensor([value])      
                 
             examples.append(molgraphs)
-
-            if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs/raw')):
-                os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs/raw'))
-            torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs/raw', 'temp.pt')) ###
+            
+            style = '3D' if this_dic['ACSF'] else '2D'
+            if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw')):
+                os.makedirs(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw'))
+            torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw', 'temp.pt')) ###
             print('Finishing processing {} compounds'.format(len(examples)))
 
     if this_dic['dataset'] == 'freesolv': # For FreeSolv
@@ -163,9 +164,10 @@ def main():
 
                 examples.append(molgraphs)
                 
-                if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs/raw')):
-                    os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'grapgs/raw'))
-                torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs/raw', 'temp.pt')) ###
+                style = '3D' if this_dic['ACSF'] else '2D'
+                if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw')):
+                    os.makedirs(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'grapgs/raw'))
+                torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw', 'temp.pt')) ###
                 print('Finishing processing {} compounds'.format(len(examples)))
         
 
