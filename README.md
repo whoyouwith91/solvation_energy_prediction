@@ -56,9 +56,8 @@ Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K,
 > `cd ./data/Frag20-Aqsol-100K/xyz/QM/`  (navigate to the corresponding directory)  
 > `wget link` (link can be copied from IMA)  
 
-After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a list of folders as shown below, for example, in the directory `./data/Frag20-Aqsol-100K/sdf/MMFF/`: 
-![folders](unziped_folders.jpg)
-Check the total number files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).
+After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a list of folders. Then Check the total number files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).  
+
 
 ## 3. Data preprocessing
 To generate molecule graph datasets for Torch geometric reading, the `preprae_data.py` contains the codes for Frag20-Aqsol-100K and FreeSolv. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.   
