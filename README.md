@@ -50,8 +50,8 @@ The repository contains all of the code and instructions needed to reproduce the
 ## 2. Conda environment setup: 
 Python 3.8 is recommended here with the **[miniconda3](https://docs.conda.io/en/latest/miniconda.html)**. 
 The package installation order is recommended as below: 
-- PyTorch. 
-`conda install pytorch cudatoolkit=10.2 -c pytorch`
+- PyTorch.   
+`conda install pytorch cudatoolkit=10.2 -c pytorch`  
 To be noted, in order to be compatible with the installation of Torch-geometric, cuda10.2 for torch should be used here. 
 - **[Torch geometirc](https://github.com/pyg-team/pytorch_geometric)**.  
 
