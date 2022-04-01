@@ -5,7 +5,10 @@
 
 The repository contains all of the code and instructions needed to reproduce the experiments and results of **[Accurate prediction of aqueous free solvation energies using 3D atomic feature-based graph neural network with transfer learning]**. We show the whole process from datasets to model training step-by-step.
 
-## 1. Datasets downloading
+## 1. Conda environment setup: 
+- python 3.8 is recommended here with the [miniconda3](https://docs.conda.io/en/latest/miniconda.html)
+
+## 2. Datasets downloading
 Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our IMA website or using the following command line. 
 - To download and save SDF files for MMFF-optimized geometries: 
 > `cd ./data/Frag20-Aqsol-100K/sdf/MMFF/`  (navigate to the corresponding directory)  
@@ -24,6 +27,7 @@ After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a l
 ![folders](unziped_folders.jpg)
 Check the total number files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).
 
-## 2. Data preprocessing
-
-## 3. Training
+## 3. Data preprocessing
+The following command line is used to process each molecule by featurizing atoms/bonds using different methods. 
+`python prepare_data.py  --data_path ${path} --save_path ${path} --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type FT`
+## 4. Training
