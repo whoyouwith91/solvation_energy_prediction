@@ -5,6 +5,12 @@
 
 The repository contains all of the code and instructions needed to reproduce the experiments and results of **[Accurate prediction of aqueous free solvation energies using 3D atomic feature-based graph neural network with transfer learning]**. We show the whole process from datasets to model training step-by-step.
 
+## Table of Contents
+Conda environment setup
+Datasets downloading 
+Data preprocessing
+Training
+
 ## 1. Conda environment setup: 
 Python 3.8 is recommended here with the **[miniconda3](https://docs.conda.io/en/latest/miniconda.html)**. 
 The package installation order is recommended as below: 
@@ -40,6 +46,6 @@ After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a l
 Check the total number files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).
 
 ## 3. Data preprocessing
-The following command line is used to process each molecule by featurizing atoms/bonds using different methods.   
+To generate molecule graph datasets for Torch geometric reading, the `preprae_data.py` contains the codes for Frag20-Aqsol-100K and FreeSolv. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using different methods.   
 `python prepare_data.py  --data_path ${path} --save_path ${path} --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type FT`
 ## 4. Training
