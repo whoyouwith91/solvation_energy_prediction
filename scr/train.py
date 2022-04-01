@@ -39,7 +39,7 @@ def main():
     # model weights initializations
     model = init_weights(model, this_dic)
     
-    if this_dic['train_type'] in ['finetuning', 'transfer']:
+    if this_dic['train_type'] == 'FT':
         if args.normalize:
             state_dict = torch.load(os.path.join(args.preTrainedPath, 'best_model', 'model_best.pt'), map_location=torch.device('cpu'))
             #state_dict.update({key:value for key,value in model.state_dict().items() if key in ['scale', 'shift']}) # scale and shift from new train loader
@@ -50,13 +50,6 @@ def main():
                 own_state[name].copy_(param)
         else:
             model.from_pretrained(os.path.join(args.preTrainedPath, 'best_model', 'model_best.pt')) # load weights for encoders 
-
-    if this_dic['train_type'] == 'transfer': # freeze encoder layers
-        if args.model in ['physnet']:
-            model.freeze_prev_layers(freeze_extra=True)
-        else:
-            for params in model.gnn.parameters():
-                params.requires_grad = False
 
     # count total # of trainable params
     this_dic['NumParas'] = count_parameters(model)
