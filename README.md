@@ -40,6 +40,6 @@ After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a l
 Check the total number files: `find .-type f | wc -l`, which should return 100000 (except the tar.bz2 file).
 
 ## 3. Data preprocessing
-The following command line is used to process each molecule by featurizing atoms/bonds using different methods. 
+The following command line is used to process each molecule by featurizing atoms/bonds using different methods.   
 `python prepare_data.py  --data_path ${path} --save_path ${path} --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type FT`
 ## 4. Training
