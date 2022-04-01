@@ -10,12 +10,12 @@ import sklearn.metrics as metrics
 
 ################### Configuration setting names ############################
 data_config = ['dataset', 'model', 'style', 'data_path']
-model_config = ['dataset', 'model', 'gnn_type',  'bn', 'batch_size', 'emb_dim', 'act_fn' , 'weights', 'num_atom_features', 'num_tasks', 'propertyLevel', \
-         'test_level', 'num_bond_features', 'pooling', 'NumParas', 'num_layer', 'fully_connected_layer_sizes', 'aggregate', \
-             'residual_connect', 'drop_ratio', 'energy_shift_value', 'energy_scale_value', 'deg_value', 'normalize']
+model_config = ['dataset', 'model', 'gnn_type',  'bn', 'batch_size', 'emb_dim', 'act_fn' , 'weights', 'num_atom_features', 'num_tasks', \
+                'num_bond_features', 'pooling', 'NumParas', 'num_layer', 'fully_connected_layer_sizes', 'aggregate', \
+                'residual_connect', 'drop_ratio', 'energy_shift_value', 'energy_scale_value', 'deg_value']
 train_config = ['running_path', 'seed', 'optimizer', 'loss', 'metrics', 'lr', 'lr_style', \
-         'epochs', 'early_stopping', 'train_type', 'taskType', 'train_size', 'val_size', 'test_size', 'sample', 'data_seed', \
-         'preTrainedPath', 'fix_test', 'vary_train_only', 'sample_size']
+                'epochs', 'early_stopping', 'train_type', 'taskType', 'train_size', 'val_size', 'test_size', 'sample', 'data_seed', \
+                'preTrainedPath', 'fix_test', 'vary_train_only', 'sample_size']
 ###############################################################################
 
 def set_seed(seed):

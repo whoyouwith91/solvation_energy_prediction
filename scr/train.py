@@ -28,11 +28,7 @@ def main():
     train_loader, val_loader, test_loader, num_atom_features, num_bond_features = loader.train_loader, loader.val_loader, loader.test_loader, loader.num_features, loader.num_bond_features
     this_dic['num_atom_features'], this_dic['num_bond_features'] = int(num_atom_features), num_bond_features
     this_dic['train_size'], this_dic['val_size'], this_dic['test_size'] = len(train_loader.dataset), len(val_loader.dataset), len(test_loader.dataset)
-    
-    # use scale and shift
-    if args.normalize: 
-        #this_dic = getScaleandShift(this_dic)
-        this_dic = getScaleandShift_from_scratch(this_dic, train_loader)
+    this_dic = getScaleandShift_from_scratch(this_dic, train_loader)
     
     #-----------------------------------loading model------------------------------------------------------------------------------------
     

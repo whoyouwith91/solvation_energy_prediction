@@ -137,13 +137,12 @@ class GNN_1(torch.nn.Module):
                 fc = nn.Sequential(Linear(L_in, L_out), nn.Dropout(config['drop_ratio']))
                 self.outLayers.append(fc)
                     
-        if self.config['normalize']:
-            shift_matrix = torch.zeros(self.emb_dim, 1)
-            scale_matrix = torch.zeros(self.emb_dim, 1).fill_(1.0)
-            shift_matrix[:, :] = self.config['energy_shift'].view(1, -1)
-            scale_matrix[:, :] = self.config['energy_scale'].view(1, -1)
-            self.register_parameter('scale', torch.nn.Parameter(scale_matrix, requires_grad=True))
-            self.register_parameter('shift', torch.nn.Parameter(shift_matrix, requires_grad=True))
+        shift_matrix = torch.zeros(self.emb_dim, 1)
+        scale_matrix = torch.zeros(self.emb_dim, 1).fill_(1.0)
+        shift_matrix[:, :] = self.config['energy_shift'].view(1, -1)
+        scale_matrix[:, :] = self.config['energy_scale'].view(1, -1)
+        self.register_parameter('scale', torch.nn.Parameter(scale_matrix, requires_grad=True))
+        self.register_parameter('shift', torch.nn.Parameter(shift_matrix, requires_grad=True))
 
     def forward(self, data):
         if self.gnn_type == 'dmpnn':
@@ -151,10 +150,9 @@ class GNN_1(torch.nn.Module):
         else:
             x, edge_index, edge_attr, batch = data.x, data.edge_index, data.edge_attr.long(), data.batch
         
-        if self.config['normalize']:
-            Z = data.Z
-            if self.gnn_type == 'dmpnn':
-               Z = torch.cat((torch.zeros(1).int(), data.Z))
+        Z = data.Z
+        if self.gnn_type == 'dmpnn':
+            Z = torch.cat((torch.zeros(1).int(), data.Z))
         
         if self.gnn_type == 'dmpnn':
             node_representation = self.gnn(f_atoms, f_bonds, a2b, b2a, b2revb) # node updating 
@@ -171,8 +169,7 @@ class GNN_1(torch.nn.Module):
         
         for layer in self.outLayers: # 
             MolEmbed = layer(MolEmbed)
-            if self.config['normalize']:
-                MolEmbed = self.scale[Z, :] * MolEmbed + self.shift[Z, :]
+            MolEmbed = self.scale[Z, :] * MolEmbed + self.shift[Z, :]
                 
         if self.graph_pooling == 'atomic':
             if self.gnn_type == 'dmpnn':
