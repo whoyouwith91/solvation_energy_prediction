@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, argparse, pickle 
 import torch
 import numpy as np
 import pandas as pd
@@ -11,6 +11,7 @@ from rdkit import Chem
 def parse_input_arguments():
     parser = argparse.ArgumentParser(description='Solvation energy dataset preparation')
     parser.add_argument('--data_path', type=str) # where csv files are saved.
+    parser.add_argument('--save_path', type=str) # where processed data are saved.
     parser.add_argument('--dataset', type=str) # Frag20-Aqsol-100K or FreeSolv
     parser.add_argument('--ACSF', action='store_true') # using 3D features or not 
     parser.add_argument('--cutoff', type=float) # cutoff values in ACSF
@@ -29,16 +30,16 @@ def getMol(file_, id_, config):
         pass  
 
     if file_ in ['pubchem', 'zinc']:
-        path_to_sdf = './data/Frag20-Aqsol-100K/sdf/{}/lessthan10/{}'.format(config['xyz'], file_) # path to the singularity file overlay-50G-10M.ext3
+        path_to_sdf = '{}/Frag20-Aqsol-100K/sdf/{}/lessthan10/{}'.format(config['data_path'], config['xyz'], file_) # path to the singularity file overlay-50G-10M.ext3
         sdf_file = os.path.join(path_to_sdf, str(id_)+format_)
     elif file_ in ['CCDC']:
-        path_to_sdf = './data/Frag20-Aqsol-100K/sdf/{}/{}'.format(config['xyz'], file_) # path to the singularity file overlay-50G-10M.ext3
+        path_to_sdf = '{}/Frag20-Aqsol-100K/sdf/{}/{}'.format(config['data_path'], config['xyz'], file_) # path to the singularity file overlay-50G-10M.ext3
         if config['xyz'] == 'MMFF':
             sdf_file = os.path.join(path_to_sdf, str(id_)+'_min.sdf')
         else:
             sdf_file = os.path.join(path_to_sdf, str(id_)+'.opt.sdf')
     else:
-        path_to_sdf = './data/Frag20-Aqsol-100K/sdf/{}/{}/'.format(config['xyz'], file_)
+        path_to_sdf = '{}/Frag20-Aqsol-100K/sdf/{}/{}/'.format(config['data_path'], config['xyz'], file_)
         sdf_file = os.path.join(path_to_sdf, str(id_)+format_)
     #print(sdf_file)
     suppl = SDMolSupplier(sdf_file, removeHs=False)
@@ -56,7 +57,7 @@ def main():
     all_data = pd.concat([train_raw, valid_raw, test_raw]).reset_index(drop=True)
 
     examples = []
-    if this_dic['dataset'] == 'sol_calc': # For Frag20-Aqsol-100K
+    if this_dic['dataset'] == 'Frag20-Aqsol-100K': # For Frag20-Aqsol-100K
         if this_dic['ACSF']:
             acsf = ACSF(
                         species=['B', 'Br', 'C', 'Cl', 'F', 'H', 'N', 'O', 'P', 'S'],
@@ -64,9 +65,9 @@ def main():
                         g2_params=[[1, 1], [1, 2], [1, 3]],
                         g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]],)
 
-        for value, id_, file in zip(all_data['CalcSol'], all_data['ID'], all_data['SourceFile']):
+        for value, id_, file_ in zip(all_data['CalcSol'], all_data['ID'], all_data['SourceFile']):
             molgraphs = {}
-            mol = getMol(file, int(id_), this_dic)
+            mol = getMol(file_, int(id_), this_dic)
 
             mol_graph = MolGraph(mol) # 2d or 3d
             if not this_dic['ACSF']: # 2D featurization
@@ -74,9 +75,9 @@ def main():
 
             if this_dic['ACSF']: # 3D featurization
                 if file_ in ['pubchem', 'zinc']:
-                    path_to_xyz = './data/Frag20-Aqsol-100K/xyz/{}/lessthan10/{}'.format(args.xyz, file_) # path to the singularity file overlay-50G-10M.ext3
+                    path_to_xyz = '{}/Frag20-Aqsol-100K/xyz/{}/lessthan10/'.format(args.data_path, args.xyz) # path to the singularity file overlay-50G-10M.ext3
                 else:
-                    path_to_xyz = './data/Frag20-Aqsol-100K/xyz/{}/{}'.format(args.xyz, file_)
+                    path_to_xyz = '{}/Frag20-Aqsol-100K/xyz/{}/{}'.format(args.data_path, args.xyz, file_)
                 file_id = str(file_) +'_' + str(int(id_)) # such as 'pubchem_100001'
                 atoms = ase_read(os.path.join(path_to_xyz, '{}.xyz'.format(file_id))) # path to the singularity file overlay-50G-10M.ext3
                 molgraphs['x'] = torch.FloatTensor(acsf.create(atoms, positions=range(mol.GetNumAtoms())))
@@ -103,13 +104,13 @@ def main():
                 
             examples.append(molgraphs)
             
-            style = '3D' if this_dic['ACSF'] else '2D'
-            if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw')):
-                os.makedirs(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw'))
-            torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw', 'temp.pt')) ###
-            print('Finishing processing {} compounds'.format(len(examples)))
+        style = '3D' if this_dic['ACSF'] else '2D'
+        if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw')):
+            os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw'))
+        torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw', 'temp.pt')) ###
+        print('Finishing processing {} compounds'.format(len(examples)))
 
-    if this_dic['dataset'] == 'freesolv': # For FreeSolv
+    if this_dic['dataset'] == 'FreeSolv': # For FreeSolv
             if this_dic['ACSF']:
                 inchi_idx = pickle.load(open(os.path.join(args.data_path, 'FreeSolv/split/inchi_index.pt'), 'rb')) # InChI mapped to index pointing to the SDF and XYZ files. 
                 species = ['Br', 'C', 'Cl', 'F', 'H', 'I', 'N', 'O', 'P', 'S'] 
@@ -127,7 +128,7 @@ def main():
                 molgraphs = {}
                         
                 idx = inchi_idx[inchi]
-                mol = SDMolSupplier(os.path.join(args.data_path, 'FreeSolv/sdf/{}.sdf'.format(idx)), removeHs=False)[0]
+                mol = SDMolSupplier(os.path.join(args.data_path, 'FreeSolv/sdf/MMFF/{}.sdf'.format(idx)), removeHs=False)[0]
                 if args.train_type in ['FT', 'TL'] and not \
                         set([atom.GetSymbol() for atom in mol.GetAtoms()]) < set(['B', 'Br', 'C', 'Cl', 'F', 'H', 'N', 'O', 'P', 'S']):
                             continue
@@ -164,11 +165,11 @@ def main():
 
                 examples.append(molgraphs)
                 
-                style = '3D' if this_dic['ACSF'] else '2D'
-                if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw')):
-                    os.makedirs(os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'grapgs/raw'))
-                torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, style, args.xyz, 'graphs/raw', 'temp.pt')) ###
-                print('Finishing processing {} compounds'.format(len(examples)))
+            style = '3D' if this_dic['ACSF'] else '2D'
+            if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw')):
+                os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw'))
+            torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw', 'temp.pt')) ###
+            print('Finishing processing {} compounds'.format(len(examples)))
         
 
 if __name__ == '__main__':

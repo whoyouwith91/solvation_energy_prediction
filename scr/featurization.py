@@ -38,7 +38,7 @@ BOND_FEATURES = {
 ######################## Define atom features and bond features ##############
 
 ##############################################################################
-def onek_encoding_unk(value, choices: List[int]) -> List[int]:
+def onek_encoding_unk(value, choices):
     encoding = [0] * (len(choices) + 1)
     index = choices.index(value) if value in choices else -1
     encoding[index] = 1
