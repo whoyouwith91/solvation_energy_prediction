@@ -116,6 +116,6 @@ After running the script, there will be a new directory generated in the format 
 If finetuning the FreeSolv task, argment `--preTrainedPath` should be explicitly called. It should point to the direcotry where `model_best.pt` is saved. Here in this repo, we saved our previously trained models on Frag20-Aqsol-100K using MMFF-optimized geometries, QM-optimized geometris and 2D for use, which are saved in `models/Frag20-Aqsol-100K/pretrained/`. 
 
 ## 6. References
-ChemProp: https://github.com/chemprop/chemprop
-k-gnn: https://github.com/chrsmrrs/k-gnn
-SuperGAT: https://github.com/dongkwan-kim/SuperGAT
+- ChemProp: https://github.com/chemprop/chemprop  
+- k-gnn: https://github.com/chrsmrrs/k-gnn  
+- SuperGAT: https://github.com/dongkwan-kim/SuperGAT  
