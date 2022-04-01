@@ -6,10 +6,10 @@
 The repository contains all of the code and instructions needed to reproduce the experiments and results of **[Accurate prediction of aqueous free solvation energies using 3D atomic feature-based graph neural network with transfer learning]**. We show the whole process from datasets to model training step-by-step.
 
 ## Table of Contents
-Conda environment setup
-Datasets downloading 
-Data preprocessing
-Training
+Conda environment setup  
+Datasets downloading   
+Data preprocessing  
+Training  
 
 ## 1. Conda environment setup: 
 Python 3.8 is recommended here with the **[miniconda3](https://docs.conda.io/en/latest/miniconda.html)**. 
