@@ -30,15 +30,22 @@ To be noted, in order to be compatible with the installation of Torch-geometric,
 ## 2. Datasets downloading
 Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our IMA website or using the following command line. 
 - To download and save SDF files for MMFF-optimized geometries: 
+
 > `cd ./data/Frag20-Aqsol-100K/sdf/MMFF/`  (navigate to the corresponding directory)  
 > `wget link` (link can be copied from IMA)  
+
 - To download XYZ files for MMFF-optimized geometries:   
+
 > `cd ./data/Frag20-Aqsol-100K/xyz/MMFF/`  (navigate to the corresponding directory)  
 > `wget link` (link can be copied from IMA)  
+
 - To download SDF files for QM-optimized geometries:  
+
 > `cd ./data/Frag20-Aqsol-100K/sdf/QM/`  (navigate to the corresponding directory)  
 > `wget link` (link can be copied from IMA)  
+
 - To download XYZ files for QM-optimized geometries:  
+
 > `cd ./data/Frag20-Aqsol-100K/xyz/QM/`  (navigate to the corresponding directory)  
 > `wget link` (link can be copied from IMA)  
 
@@ -48,7 +55,10 @@ Check the total number files: `find .-type f | wc -l`, which should return 10000
 
 ## 3. Data preprocessing
 To generate molecule graph datasets for Torch geometric reading, the `preprae_data.py` contains the codes for Frag20-Aqsol-100K and FreeSolv. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.   
+
 `python prepare_data.py  --data_path <path> --save_path <save_path> --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type TS`  
+
+
 where `<path>` is the path to the place where folders sdf, xyz and split are all saved, `<save_path>` is the same path as `data_path` for default where a new directory `graphs` will be created. `--ACSF` means the 3D features are used here. `--cutoff` is the parameter for ACSF functions. `--xyz` means if the MMFF-optimized or QM-optimized geometries are used. `--train_type` means if we save the graph datasets to train the model from scratch (TS) or not. 
 
 ## 4. Training
