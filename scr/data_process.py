@@ -1,7 +1,6 @@
 import torch
 from torch_geometric.data import (InMemoryDataset,Data)
 from torch_geometric.data import Batch
-from featurization import *
 
 
 #------------------Naive-------------------------------------
@@ -36,8 +35,6 @@ class GraphDataset(InMemoryDataset):
                 mol_y=d['mol_y'],
                 Z=d['Z'],
                 N=d['N'],
-                #smiles=d['smiles'],
-                ids=d['id']
                 ) for d in raw_data_list
         ]
 

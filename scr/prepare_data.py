@@ -105,9 +105,9 @@ def main():
             examples.append(molgraphs)
             
         style = '3D' if this_dic['ACSF'] else '2D'
-        if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw')):
-            os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw'))
-        torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs', style, args.xyz, 'raw', 'temp.pt')) ###
+        if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.xyz, 'raw')):
+            os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.xyz, 'raw'))
+        torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.xyz, 'raw', 'temp.pt')) ###
         print('Finishing processing {} compounds'.format(len(examples)))
 
     if this_dic['dataset'] == 'FreeSolv': # For FreeSolv
@@ -165,9 +165,9 @@ def main():
             examples.append(molgraphs)
                 
         style = '3D' if this_dic['ACSF'] else '2D'
-        if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.train_type, args.xyz, 'raw')):
-            os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.train_type, args.xyz, 'raw'))
-        torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.train_type, args.xyz, 'raw', 'temp.pt')) ###
+        if not os.path.exists(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.train_type + '_' + args.xyz, 'raw')):
+            os.makedirs(os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.train_type + '_' + args.xyz, 'raw'))
+        torch.save(examples, os.path.join(this_dic['save_path'], args.dataset, 'graphs', style + '_' + args.train_type + '_' + args.xyz, 'raw', 'temp.pt')) ###
         print('Finishing processing {} compounds'.format(len(examples)))
         
 

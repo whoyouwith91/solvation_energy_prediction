@@ -1,7 +1,7 @@
 import sys
 from helper import *
-from data import *
-from models import *
+from dataLoader import *
+from model import *
 
 def train(model, optimizer, dataloader, config, scheduler=None):
     '''
@@ -30,12 +30,12 @@ def train(model, optimizer, dataloader, config, scheduler=None):
         scheduler.step()
     
     if config['metrics'] == 'l2':
-        return np.sqrt(all_loss / len(dataloader.dataset)) # RMSE for mol level properties.
+        return np.sqrt(all_loss / len(dataloader.dataset))
     
     if config['metrics'] == 'l1':
         return all_loss / len(dataloader.dataset) 
 
-def test(model, dataloader, config, onData=''):
+def test(model, dataloader, config):
     '''
     Test model's performance
     '''
@@ -48,12 +48,12 @@ def test(model, dataloader, config, onData=''):
             pred = model(data)
 
             if config['gnn_type'] == 'dmpnn':
-                error += get_metrics_fn(config['metrics'])(y[1], data.mol_y) * data.mol_y.shape[0]
+                error += get_metrics_fn(config['metrics'])(pred, data.mol_y) * data.mol_y.shape[0]
             else:
-                error += get_metrics_fn(config['metrics'])(y[1], data.mol_y) * data.num_graphs
+                error += get_metrics_fn(config['metrics'])(pred, data.mol_y) * data.num_graphs
                 
         if config['metrics'] == 'l2':
-            return np.sqrt(error.item() / len(dataloader.dataset)) # RMSE for mol level properties.
+            return np.sqrt(error.item() / len(dataloader.dataset))
     
         if config['metrics'] == 'l1':
            return error.item() / len(dataloader.dataset)

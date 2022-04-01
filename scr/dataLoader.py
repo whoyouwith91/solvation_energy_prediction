@@ -1,4 +1,4 @@
-from dataProcess import *
+from data_process import *
 from k_gnn import DataLoader
 import torch
 import random
@@ -75,7 +75,7 @@ class get_data_loader():
             val_loader = DataLoader(val_dataset, batch_size=self.config['batch_size'], num_workers=0)
             train_loader = DataLoader(train_dataset, batch_size=self.config['batch_size'], num_workers=0, shuffle=True)
       
-      return train_loader, val_loader, test_loader, num_features, num_bond_features
+        return train_loader, val_loader, test_loader, num_features, num_bond_features
 
 
 

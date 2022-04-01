@@ -14,7 +14,7 @@ from torch_geometric.utils import (remove_self_loops, add_self_loops, softmax,
                                    batched_negative_sampling, to_undirected,
                                    dropout_adj)
 
-from inits import glorot, zeros
+from torch_geometric.nn.inits import glorot, zeros
 
 
 class SuperGATConv(MessagePassing):

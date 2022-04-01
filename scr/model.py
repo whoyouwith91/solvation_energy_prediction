@@ -98,8 +98,7 @@ class GNN(torch.nn.Module):
                 #h = self.pair_norm(h, data.batch)
                 if layer == self.num_layer - 1:
                     #remove relu for the last layer
-                    h = F.dropout(h, self.drop_ratio, training = self.training)
-                    self.last_conv = self.get_activations(h)
+                    self.last_conv = F.dropout(h, self.drop_ratio, training = self.training)
                 else:
                     h = self.act_fn(h)
                     h = F.dropout(h, self.drop_ratio, training = self.training)
@@ -118,7 +117,6 @@ class GNN_1(torch.nn.Module):
         self.fully_connected_layer_sizes = config['fully_connected_layer_sizes']
         self.emb_dim = config['emb_dim']
         self.graph_pooling = config['pooling']
-        self.propertyLevel = config['propertyLevel']
         self.gnn_type = config['gnn_type']
 
         self.gnn = GNN(config)
@@ -131,7 +129,7 @@ class GNN_1(torch.nn.Module):
             self.mult = 1
         embed_size = self.mult * self.emb_dim 
 
-        for idx, (L_in, L_out) in enumerate(zip([embed_size] + self.fully_connected_layer_sizes, self.fully_connected_layer_sizes + [self.num_tasks])):
+        for idx, (L_in, L_out) in enumerate(zip([embed_size] + self.fully_connected_layer_sizes, self.fully_connected_layer_sizes + [1])):
             if idx != len(self.fully_connected_layer_sizes):
                 fc = nn.Sequential(Linear(L_in, L_out), activation_func(config), nn.Dropout(config['drop_ratio']))
                 self.outLayers.append(fc)
@@ -172,7 +170,7 @@ class GNN_1(torch.nn.Module):
             MolEmbed = self.pool(node_representation, batch)  # atomic read-out (-1, 1)
         
         for layer in self.outLayers: # 
-                MolEmbed = layer(MolEmbed)
+            MolEmbed = layer(MolEmbed)
             if self.config['normalize']:
                 MolEmbed = self.scale[Z, :] * MolEmbed + self.shift[Z, :]
                 

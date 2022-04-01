@@ -2,9 +2,9 @@ import argparse, time, os, warnings
 import torch
 from args import *
 from helper import *
-from data import *
+from dataLoader import *
 from trainer import *
-from models import *
+from model import *
 
 def main():
     warnings.filterwarnings("ignore")
@@ -23,7 +23,7 @@ def main():
     results = createResultsFile(this_dic) # create pretty table
 
     # ------------------------------------load processed data-----------------------------------------------------------------------------
-    this_dic['data_path'] = os.path.join(args.allDataPath, args.dataset, 'graphs', args.model, args.style)
+    this_dic['data_path'] = os.path.join(args.data_path, args.dataset, 'graphs', args.style)
     loader = get_data_loader(this_dic)
     train_loader, val_loader, test_loader, num_atom_features, num_bond_features = loader.train_loader, loader.val_loader, loader.test_loader, loader.num_features, loader.num_bond_features
     this_dic['num_atom_features'], this_dic['num_bond_features'] = int(num_atom_features), num_bond_features
@@ -79,9 +79,9 @@ def main():
         if this_dic['dataset'] == 'sol_calc': # 
             train_error = 0. # coz train set is too large to be tested every epoch
         else:
-            train_error = test_model(this_dic)(model_, train_loader, this_dic) # test on entire dataset
-            val_error = test_model(this_dic)(model_, val_loader, this_dic) # test on entire dataset
-            test_error = test_model(this_dic)(model_, test_loader, this_dic, onData='test') # test on entire dataset
+            train_error = test(model_, train_loader, this_dic) # test on entire dataset
+            val_error = test(model_, val_loader, this_dic) # test on entire dataset
+            test_error = test(model_, test_loader, this_dic) # test on entire dataset
 
         # model saving
         best_val_error = saveModel(this_dic, epoch, model_, best_val_error, val_error) # save model if validation error hits new lower 
@@ -92,7 +92,7 @@ def main():
         elif this_dic['scheduler'] in ['NoamLR', 'step']: lr = scheduler.get_lr()[0]
         else:lr = scheduler.optimizer.param_groups[0]['lr'] # decaying on val error
 
-        loss = train_model(this_dic)(model_, optimizer, train_loader, this_dic, scheduler=scheduler) # training loss
+        loss = train(model_, optimizer, train_loader, this_dic, scheduler=scheduler) # training loss
         time_toc = time.time() # ending time 
         
         if this_dic['scheduler'] == 'decay':
