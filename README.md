@@ -77,7 +77,9 @@ To train different tasks, the `train.py` contains the codes. For example, the fo
 
 where `<path>` is same as the above `<save_path>` in Step 3, `<results_path>` is where the results are saved. `<GNN>` is the GNN module used to build the model. For example, `PNAConv`. `<seed>` is the random seed to initialize the weights. `<STYLE>` should be consistent with the folder where processed datasets are saved, for example, `3D_TS_MMFF` from the script in Step 3. `<EXP>` is any experiment names for the job running. `[120 60]` means the dimensions for readout layers are 120, 60, except for the last layer with 1 be the dimension. `--bn` means using the batch normalization. `--residual_connect` means using the residual connection. `<dataRandomSeed>` only works when `--sample` is called to do the random splits. 
 
-After running the script, there will be a new directory generated in the format of `<results_path>` + `Frag20-Aqsol-100K` + `1-GNN` + `<GNN>` + `<EXP>`, where file, `config.json`, training results file `data.txt`, and two folders where the model parameters for best model (lowest validation error) and last-epoch model are saved. 
+After running the script, there will be a new directory generated in the format of `<results_path>` + `Frag20-Aqsol-100K` + `1-GNN` + `<GNN>` + `<EXP>`, where file, `config.json`, training results file `data.txt`, and two folders where the model parameters for best model (lowest validation error) and last-epoch model are saved: `model_best.pt` and `last_model.pt`. 
+
+If finetuning the FreeSolv task, argment `--preTrainedPath` should be explicitly called. It should point to the direcotry where `model_best.pt` is saved. Here in this repo, we saved our previously trained models on Frag20-Aqsol-100K using MMFF-optimized geometries, QM-optimized geometris and 2D for use, which are saved in `models/Frag20-Aqsol-100K/pretrained/`. 
 
 ## 5. References
 ChemProp: https://github.com/chemprop/chemprop
