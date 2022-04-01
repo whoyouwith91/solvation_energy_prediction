@@ -6,7 +6,13 @@
 The repository contains all of the code and instructions needed to reproduce the experiments and results of **[Accurate prediction of aqueous free solvation energies using 3D atomic feature-based graph neural network with transfer learning]**. We show the whole process from datasets to model training step-by-step.
 
 ## 1. Conda environment setup: 
-- python 3.8 is recommended here with the [miniconda3](https://docs.conda.io/en/latest/miniconda.html)
+- python 3.8 is recommended here with the **[miniconda3](https://docs.conda.io/en/latest/miniconda.html)**. 
+The package installation order is recommended as below: 
+- PyTorch. 
+`conda install pytorch cudatoolkit=10.2 -c pytorch`
+To be noted, in order to be compatible with the installation of Torch-geometric, cuda10.2 for torch should be used here. 
+
+
 
 ## 2. Datasets downloading
 Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our IMA website or using the following command line. 
