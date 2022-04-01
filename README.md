@@ -13,7 +13,12 @@ The package installation order is recommended as below:
 To be noted, in order to be compatible with the installation of Torch-geometric, cuda10.2 for torch should be used here. 
 - **[Torch geometirc](https://github.com/pyg-team/pytorch_geometric)**.
 `conda install pyg -c pyg`
-
+- **[rdkit](https://www.rdkit.org/docs/Install.html)**.
+`conda install -c conda-forge rdkit`
+- **[DSCRIBE](https://singroup.github.io/dscribe/latest/install.html)**.
+`conda install -c conda-forge dscribe`
+- PrettyTable.
+`conda install -c conda-forge prettytable`
 
 ## 2. Datasets downloading
 Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our IMA website or using the following command line. 
