@@ -44,6 +44,7 @@ The repository contains all of the code and instructions needed to reproduce the
             |- 3D_MMFF                      <- model trained with A3D features calculated from MMFF-opt geometries 
             |- 3D_QM                        <- model trained with A3D features calculated from QM-opt geometries 
             |- 2D                           <- model trained with 2D features 
+|- results                                  <- where training results should be saved 
 ```
 
 ## 2. Conda environment setup: 
