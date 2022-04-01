@@ -18,13 +18,20 @@ The package installation order is recommended as below:
 - PyTorch. 
 `conda install pytorch cudatoolkit=10.2 -c pytorch`
 To be noted, in order to be compatible with the installation of Torch-geometric, cuda10.2 for torch should be used here. 
-- **[Torch geometirc](https://github.com/pyg-team/pytorch_geometric)**.
+- **[Torch geometirc](https://github.com/pyg-team/pytorch_geometric)**.  
+
 `conda install pyg -c pyg`
-- **[rdkit](https://www.rdkit.org/docs/Install.html)**.
+
+- **[rdkit](https://www.rdkit.org/docs/Install.html)**.  
+
 `conda install -c conda-forge rdkit`
-- **[DSCRIBE](https://singroup.github.io/dscribe/latest/install.html)**.
+
+- **[DSCRIBE](https://singroup.github.io/dscribe/latest/install.html)**.  
+
 `conda install -c conda-forge dscribe`
-- PrettyTable.
+
+- PrettyTable.  
+
 `conda install -c conda-forge prettytable`
 
 ## 2. Datasets downloading
