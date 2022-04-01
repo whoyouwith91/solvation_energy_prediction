@@ -18,22 +18,22 @@ The repository contains all of the code and instructions needed to reproduce the
 ```
 |- README.md                                <- this file
 |- scr                                      <- Main code of this work
-    |- train.py
-    |- trainer.py
-    |- model.py
-    |- gnns.py
-    |- k_gnn.py
-    |- supergat_conv.py
-    |- layers.py
-    |- prepare_data.py
-    |- featurization.py
-    |- helper.py
-    |- args.py              
+    |- train.py                             <- model training, see usage in Step 5
+    |- trainer.py                           <- provide train/test functions
+    |- model.py                             <- model building
+    |- gnns.py                              <- a list of GNN modules
+    |- k_gnn.py                             <- dataloader building
+    |- supergat_conv.py                     <- SuperGAT 
+    |- layers.py                            <- simple layers building blocks
+    |- prepare_data.py                      <- process molecules datasets
+    |- featurization.py                     <- featurization methods
+    |- helper.py                            <- provide simple functions for use
+    |- args.py                              <- list of argments for training
 |- data                                     <- where data are saved       
     |- Frag20-Aqsol-100K
         |- split                            <- train/validation/test csv files    
-        |- sdf                              <- SDF files for all molecules   
-        |- xyz                              <- XYZ files for all molecules   
+        |- sdf                              <- SDF files for all molecules, downloaded elsewhere, see Step 3 
+        |- xyz                              <- XYZ files for all molecules, downloaded elsewhere, see Step 3 
     |- FreeSolv
         |- split                            <- train/validation/test csv files    
         |- sdf                              <- SDF files for all molecules   
@@ -41,9 +41,9 @@ The repository contains all of the code and instructions needed to reproduce the
 |- models                                   <- where pretrained models are saved for use
     |- Frag20-Aqsol-100K
         |- pretrained
-            |- 3D_MMFF
-            |- 3D_QM
-            |- 2D
+            |- 3D_MMFF                      <- model trained with A3D features calculated from MMFF-opt geometries 
+            |- 3D_QM                        <- model trained with A3D features calculated from QM-opt geometries 
+            |- 2D                           <- model trained with 2D features 
 ```
 
 ## 2. Conda environment setup: 
