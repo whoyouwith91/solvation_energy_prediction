@@ -107,7 +107,7 @@ After running the above script, there will be a directory generated in the `<sav
 ## 5. Training
 To train different tasks, the `train.py` contains the codes. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.  
 
-`python train.py --data_path <path> --running_path <restuls_path> --dataset Frag20-Aqsol-100K --gnn_type <GNN> --seed <seed> --train_type TS --style <STYLE> --experiment <EXP> --fully_connected_layer_sizes [120, 60] --bn --residual_connect --data_seed <dataRandomSeed> --train_size <tr_size> --val_size <val_size> --test_size <tst_size>`
+`python train.py --data_path <path> --running_path <restuls_path> --dataset Frag20-Aqsol-100K --gnn_type <GNN> --seed <seed> --train_type TS --style <STYLE> --experiment <EXP> --fully_connected_layer_sizes [120, 120] --bn --residual_connect --data_seed <dataRandomSeed> --train_size <tr_size> --val_size <val_size> --test_size <tst_size>`
 
 where `<path>` is same as the above `<save_path>` in Step 3, `<results_path>` is where the results are saved. `<GNN>` is the GNN module used to build the model. For example, `PNAConv`. `<seed>` is the random seed to initialize the weights. `<STYLE>` should be consistent with the folder where processed datasets are saved, for example, `3D_TS_MMFF` from the script in Step 3. `<EXP>` is any experiment names for the job running. `[120 60]` means the dimensions for readout layers are 120, 60, except for the last layer with 1 be the dimension. `--bn` means using the batch normalization. `--residual_connect` means using the residual connection. `<dataRandomSeed>` only works when `--sample` is called to do the random splits. 
 
