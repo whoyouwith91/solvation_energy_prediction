@@ -2,6 +2,8 @@ import os, sys, argparse, pickle
 import torch
 import numpy as np
 import pandas as pd
+import tqdm
+
 from featurization import *
 from rdkit.Chem.rdmolfiles import SDMolSupplier
 from dscribe.descriptors import ACSF
@@ -66,7 +68,10 @@ def main():
                         g2_params=[[1, 1], [1, 2], [1, 3]],
                         g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]],)
 
-        for value, id_, file_ in zip(all_data['CalcSol'], all_data['ID'], all_data['SourceFile']):
+        raw_entries = zip(all_data['CalcSol'], all_data['ID'], all_data['SourceFile'])
+        if this_dic["tqdm"]:
+            raw_entries = tqdm.tqdm(raw_entries, desc=f"Processing {this_dic['dataset']}", total=all_data.shape[0])
+        for value, id_, file_ in raw_entries:
             molgraphs = {}
             mol = getMol(file_, int(id_), this_dic)
 
@@ -125,7 +130,10 @@ def main():
                         g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]],
                         periodic=periodic)
 
-        for inchi, tar in zip(all_data['InChI'], all_data['target']):
+        raw_entries = zip(all_data['InChI'], all_data['target'])
+        if this_dic["tqdm"]:
+            raw_entries = tqdm.tqdm(raw_entries, desc=f"Processing {this_dic['dataset']}", total=all_data.shape[0])
+        for inchi, tar in raw_entries:
             molgraphs = {}
                         
             idx = inchi_idx[inchi]
