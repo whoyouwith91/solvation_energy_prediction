@@ -71,33 +71,30 @@ To be noted, in order to be compatible with the installation of Torch-geometric,
 
 ## 3. Datasets downloading
 Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our IMA website or using the following command line. 
-- To download and save SDF files for MMFF-optimized geometries: 
 
-> `cd ./data/Frag20-Aqsol-100K/sdf/MMFF/`  (navigate to the corresponding directory)  
-> `wget link` (link can be copied from IMA)  
+`cd data`
 
-- To download XYZ files for MMFF-optimized geometries:   
+`wget PLACE_HOLDER`
 
-> `cd ./data/Frag20-Aqsol-100K/xyz/MMFF/`  (navigate to the corresponding directory)  
-> `wget link` (link can be copied from IMA)  
+After downloading the tar.bz2 file, unzip it using `tar -xf`. 
 
-- To download SDF files for QM-optimized geometries:  
+`tar xvf Frag20-Aqsol-100K.tar.bz2`
 
-> `cd ./data/Frag20-Aqsol-100K/sdf/QM/`  (navigate to the corresponding directory)  
-> `wget link` (link can be copied from IMA)  
+You should see a list of folders. Then check the total number of files: 
 
-- To download XYZ files for QM-optimized geometries:  
+`find Frag20-Aqsol-100K/ -type f | wc -l` 
 
-> `cd ./data/Frag20-Aqsol-100K/xyz/QM/`  (navigate to the corresponding directory)  
-> `wget link` (link can be copied from IMA)  
+which should return around 400,000. Now return to the root folder:
 
-After downloading the tar.bz2 file, unzip it using `tar -xf`. You should see a list of folders. Then check the total number of files: `find . -type f | wc -l`, which should return 100000 (except the tar.bz2 file).  
+`cd ..`
 
 
 ## 4. Data preprocessing
 To generate molecule graph datasets for Torch geometric reading, the `preprae_data.py` contains the codes for Frag20-Aqsol-100K and FreeSolv. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.   
 `cd src`
+
 `python prepare_data.py  --data_path ../data --save_path ../data/processed --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type TS --tqdm`  
+
 `python prepare_data.py  --data_path ../data --save_path ../data/processed --dataset FreeSolv --ACSF --cutoff 6.0 --xyz MMFF --train_type FT --tqdm` 
 
 
