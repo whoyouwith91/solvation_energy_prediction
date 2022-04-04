@@ -32,8 +32,6 @@ The repository contains all of the code and instructions needed to reproduce the
 |- data                                     <- where data are saved       
     |- Frag20-Aqsol-100K
         |- split                            <- train/validation/test csv files    
-        |- sdf                              <- SDF files for all molecules, downloaded elsewhere, see Step 3 
-        |- xyz                              <- XYZ files for all molecules, downloaded elsewhere, see Step 3 
     |- FreeSolv
         |- split                            <- train/validation/test csv files    
         |- sdf                              <- SDF files for all molecules   
