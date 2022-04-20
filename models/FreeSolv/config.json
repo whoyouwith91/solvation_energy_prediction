@@ -1,0 +1,53 @@
+{
+  "data_config": {
+    "dataset": "FreeSolv",
+    "model": "1-GNN",
+    "style": "3D_FT_MMFF",
+    "data_path": "/scratch/dz1061/packages/solvation_energy_prediction/data/FreeSolv/graphs/3D_FT_MMFF"
+  },
+  "model_config": {
+    "dataset": "FreeSolv",
+    "model": "1-GNN",
+    "gnn_type": "pnaconv",
+    "bn": true,
+    "batch_size": 100,
+    "emb_dim": 120,
+    "act_fn": "relu",
+    "weights": "xavier_norm",
+    "num_atom_features": 260,
+    "num_bond_features": 7,
+    "pooling": "atomic",
+    "NumParas": 1231321,
+    "num_layer": 3,
+    "fully_connected_layer_sizes": [
+      120,
+      120
+    ],
+    "aggregate": "add",
+    "residual_connect": true,
+    "drop_ratio": 0.0,
+    "energy_shift_value": -0.22872907842605555,
+    "energy_scale_value": 0.25724073853290813,
+    "deg_value": "[0, 5356, 376, 1830, 1600, 0]"
+  },
+  "train_config": {
+    "running_path": "/scratch/dz1061/packages/solvation_energy_prediction/results/FreeSolv/1-GNN/pnaconv/FT/3D_FT_MMFF/Exp_3",
+    "seed": 1,
+    "optimizer": "adam",
+    "loss": "l1",
+    "metrics": "l2",
+    "lr": 0.001,
+    "epochs": 1000,
+    "early_stopping": false,
+    "train_type": "FT",
+    "train_size": 504,
+    "val_size": 63,
+    "test_size": 63,
+    "sample": true,
+    "data_seed": 3,
+    "preTrainedPath": "/scratch/dz1061/packages/solvation_energy_prediction/results/Frag20-Aqsol-100K/1-GNN/pnaconv/from_scratch/3D_MMFF/seed_1",
+    "fix_test": false,
+    "vary_train_only": false,
+    "sample_size": 0
+  }
+}
