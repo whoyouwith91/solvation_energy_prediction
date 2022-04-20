@@ -68,7 +68,7 @@ To be noted, in order to be compatible with the installation of Torch-geometric,
 `conda install -c conda-forge prettytable`
 
 ## 3. Datasets downloading
-Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our **[IMA website]**(https://yzhang.hpc.nyu.edu/IMA/) or using the following command line. 
+Since the 3D structures are stored in SDF and XYZ formats for Frag20-Aqsol-100K, they are saved elsewhere and can be downloaded either from our [IMA website](https://yzhang.hpc.nyu.edu/IMA/) or using the following command line. 
 
 `cd data`
 
