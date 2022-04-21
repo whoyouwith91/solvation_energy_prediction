@@ -17,7 +17,7 @@ The repository contains all of the code and instructions needed to reproduce the
 ## 1. Project organization
 ```
 |- README.md                                <- this file
-|- scr                                      <- Main code of this work
+|- scripts                                  <- Main code of this work
     |- train.py                             <- model training, see usage in Step 5
     |- trainer.py                           <- provide train/test functions
     |- model.py                             <- model building
@@ -91,7 +91,7 @@ which should return around 400,000. Now return to the root folder:
 
 ## 4. Data preprocessing
 To generate molecule graph datasets for Torch geometric reading, the `preprae_data.py` contains the codes for Frag20-Aqsol-100K and FreeSolv. For example, the following command line is used to process each molecule in Frag20-Aqsol-100K by featurizing atoms/bonds using 3D atomic features.   
-`cd src`
+`cd scripts`
 
 `python prepare_data.py  --data_path ../data --save_path ../data/processed --dataset Frag20-Aqsol-100K --ACSF --cutoff 6.0 --xyz MMFF --train_type TS --tqdm`  
 
