@@ -41,8 +41,10 @@ The repository contains all of the code and instructions needed to reproduce the
         |- pretrained
             |- 3D_MMFF                      <- model trained with A3D features calculated from MMFF-opt geometries 
             |- 3D_QM                        <- model trained with A3D features calculated from QM-opt geometries 
-            |- 2D                           <- model trained with 2D features 
+            |- 2D                           <- model trained with 2D features
+    |- FreeSolv                             <- a finetuned model and configuration file for use in the notebooks 
 |- results                                  <- where training results should be saved 
+|- notebooks                                <- a tutorial showing quick test and prediction of given molecules in SMILES
 ```
 
 ## 2. Conda environment setup: 
