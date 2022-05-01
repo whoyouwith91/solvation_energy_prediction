@@ -11,6 +11,7 @@ The repository contains all of the code and instructions needed to reproduce the
 - Datasets downloading   
 - Data preprocessing  
 - Training
+- Predicting 
 - References
 ---
 
@@ -19,6 +20,7 @@ The repository contains all of the code and instructions needed to reproduce the
 |- README.md                                <- this file
 |- scripts                                  <- Main code of this work
     |- train.py                             <- model training, see usage in Step 5
+    | - predict.py                          <- Directly predict solvation energy for molecules 
     |- trainer.py                           <- provide train/test functions
     |- model.py                             <- model building
     |- gnns.py                              <- a list of GNN modules
@@ -116,7 +118,14 @@ If finetuning the FreeSolv task, argment `--preTrainedPath` should be explicitly
 
 `python train.py --data_path ../data/processed --running_path ../results --dataset FreeSolv --gnn_type pnaconv --seed 222 --train_type FT --style 3D_FT_MMFF --experiment freesolv-ft --fully_connected_layer_sizes 120 120 --bn --residual_connect --data_seed 123 --train_size 504 --val_size 63 --test_size 63 --optimizer adam --preTrainedPath ../models/Frag20-Aqsol-100K/pretrained/3D_MMFF/`
 
-## 6. References
+
+## 6. Predicting
+To quickly predict one molecule given SMILES, use the following script:
+
+`python predict.py --SMILES --file_path --model_path ../models/FreeSolv`
+
+
+## 7. References
 - ChemProp: https://github.com/chemprop/chemprop  
 - k-gnn: https://github.com/chrsmrrs/k-gnn  
 - SuperGAT: https://github.com/dongkwan-kim/SuperGAT  
